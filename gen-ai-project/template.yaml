@@ -2,7 +2,7 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: gen-ai-setup
-  title: Generative AI Application Setup 0.4
+  title: Generative AI Application Setup 0.5
   description: Create and register the Generative AI components on OpenShift
   tags:
     - ai
@@ -137,7 +137,7 @@ spec:
       input:
         appName: ${{ parameters.team_name }}
         # Hardcoded value because this is kept as a secret on the server to allow forks to easily change the value
-        argoInstance: argocd.operate-first.cloud
+        argoInstance: main
         namespace: ${{ parameters.namespace }}
         repoUrl: ${{ steps.publish.output.remoteUrl }}
         labelValue: ${{ parameters.team_name }}
