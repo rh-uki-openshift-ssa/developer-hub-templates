@@ -73,7 +73,7 @@ spec:
       name: Publish
       action: publish:github
       input:
-        repoUrl: "${{ parameters.repo.host }}?owner=${{ parameters.repo.owner }}&repo=${{parameters.component_id}}"
+        repoUrl: "${{ parameters.repo.host }}?owner=${{ parameters.repo.owner }}&repo=${{parameters.team_name}}"
         repoVisibility: public
         ## token: ${{ parameters.repo.token }}
 
