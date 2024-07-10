@@ -2,7 +2,7 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: gen-ai-setup
-  title: Generative AI Application Setup 0.2
+  title: Generative AI Application Setup 0.3
   description: Create and register the Generative AI components on OpenShift
   tags:
     - ai
@@ -75,7 +75,7 @@ spec:
       input:
         repoUrl: "${{ parameters.repo.host }}?owner=${{ parameters.repo.owner }}&repo=${{parameters.team_name}}"
         repoVisibility: public
-        token: ${{ parameters.repo.token }}
+#        token: '${{ parameters.repo.token }}'
 
     - id: log
       name: Log parameters - 2
