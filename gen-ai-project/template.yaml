@@ -2,7 +2,7 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: gen-ai-setup
-  title: Generative AI Application Setup 0.1
+  title: Generative AI Application Setup 0.2
   description: Create and register the Generative AI components on OpenShift
   tags:
     - ai
@@ -44,10 +44,10 @@ spec:
               default: marrober
               enum:
                 - marrober
-            #token: 
-            #  title: Github authentication token
-            #  type: string
-            #  description: A Github authentication token to be used to create repositories.
+            token: 
+              title: Github authentication token
+              type: string
+              description: A Github authentication token to be used to create repositories.
   steps:
     - id: log
       name: Log parameters - 1
@@ -75,7 +75,7 @@ spec:
       input:
         repoUrl: "${{ parameters.repo.host }}?owner=${{ parameters.repo.owner }}&repo=${{parameters.team_name}}"
         repoVisibility: public
-        ## token: ${{ parameters.repo.token }}
+        token: ${{ parameters.repo.token }}
 
     - id: log
       name: Log parameters - 2
