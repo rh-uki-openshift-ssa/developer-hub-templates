@@ -2,7 +2,7 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: gen-ai-setup
-  title: Generative AI Application Setup 0.3
+  title: Generative AI Application Setup 0.4
   description: Create and register the Generative AI components on OpenShift
   tags:
     - ai
@@ -48,6 +48,24 @@ spec:
               title: Github authentication token
               type: string
               description: A Github authentication token to be used to create repositories.
+    - title: Provide information about the ArgoCD deployment
+      required:
+        - imageRepository
+        - namespace
+      properties:
+        imageRepository:
+          title: Select a registry
+          type: string
+          default: image-registry.openshift-image-registry.svc:5000
+          enum:
+            - image-registry.openshift-image-registry.svc:5000
+          enumNames:
+            - Internal OpenShift Registry
+        namespace:
+          title: Namespace
+          type: string
+          default: ${{ parameters.team_name }}
+          description: The namespace for deploying resources
   steps:
     - id: log
       name: Log parameters - 1
@@ -75,7 +93,7 @@ spec:
       input:
         repoUrl: "${{ parameters.repo.host }}?owner=${{ parameters.repo.owner }}&repo=${{parameters.team_name}}"
         repoVisibility: public
-#        token: '${{ parameters.repo.token }}'
+        token: '${{ parameters.repo.token }}'
 
     - id: log
       name: Log parameters - 2
@@ -102,6 +120,30 @@ spec:
       input: 
         message: 'Parameters -> catalogInfoUrl : ${{ steps.register.output.catalogInfoUrl }}'
   
+    - id: manifestsTemplate
+      name: Generating the Manifests Component
+      action: fetch:template
+      input:
+        url: ../manifest/
+        values:
+          team_name: ${{parameters.team_name}}
+          repo_owner: ${{ parameters.repo.owner }}
+          repo_host: ${{ parameters.repo.host }}
+          namespace: ${{ parameters.namespace }}
+
+    - id: createArgocdResources
+      name: Create the ArgoCD Resources
+      action: argocd:create-resources
+      input:
+        appName: ${{ parameters.team_name }}
+        # Hardcoded value because this is kept as a secret on the server to allow forks to easily change the value
+        argoInstance: argocd.operate-first.cloud
+        namespace: ${{ parameters.namespace }}
+        repoUrl: ${{ steps.publish.output.remoteUrl }}
+        labelValue: ${{ parameters.team_name }}
+        path: manifest/base
+
+
   output:
     links:
       - title: Source Code Repository
