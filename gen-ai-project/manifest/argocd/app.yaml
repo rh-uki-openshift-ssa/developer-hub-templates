@@ -1,15 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ${{ values.team_name | dump }}
+#  name: ${{ values.team_name | dump }}
+  name: test
+  namespace: openshift-gitops
 spec:
   destination:
-    namespace: ${{ values.namespace }}
+    # namespace: ${{ values.namespace }}
+    namespace: app-test-1
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: gen-ai-project/helm/genai-retrieval-augmented-generation
-    repoURL: ${{ parameters.repo_host }}/${{ parameters.repo_owner }}/${{parameters.team_name}}
+    path: gen-ai-project/manifest/helm/genai-retrieval-augmented-generation/
+    # repoURL: ${{ parameters.repo_host }}/${{ parameters.repo_owner }}/${{parameters.team_name}}
+    repoURL: https://github.com/rh-uki-openshift-ssa/developer-hub-templates.git
     targetRevision: main
   syncPolicy:
     automated:
