@@ -2,7 +2,7 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: gen-ai-setup
-  title: Generative AI Application Setup 0.71
+  title: Generative AI Application Setup 0.72
   description: Create and register the Generative AI components on OpenShift
   tags:
     - ai
@@ -131,19 +131,13 @@ spec:
       action: debug:log
       input: 
         message: 'Parameters -> catalogInfoUrl : ${{ steps.register.output.catalogInfoUrl }}'
-  
-    - id: manifestsTemplate
-      name: Generating the Manifests Component
-      action: fetch:template
-      input:
-        url: ../manifest/
-        values:
-          team_name: ${{parameters.team_name}}
-          repo_owner: ${{ parameters.repo.owner }}
-          repo_host: ${{ parameters.repo.host }}
-          namespace: ${{ parameters.namespace }}
-          destination: https://${{ parameters.repo.host }}/${{ parameters.repo.owner }}/${{ parameters.team_name }}.git
 
+    - id: log
+      name: Log parameters - 4
+      action: debug:log
+      input: 
+        message: 'Parameters -> remoteUrl : ${{ steps.publish.output.remoteUrl }}'
+  
     - id: createArgocdResources
       name: Create the ArgoCD Resources
       action: argocd:create-resources
@@ -152,10 +146,9 @@ spec:
         # Hardcoded value because this is kept as a secret on the server to allow forks to easily change the value
         argoInstance: argocd
         namespace: openshift-gitops
-        repoUrl: ${{ parameters.repo.host }}/${{ parameters.repo.owner }}/${{parameters.team_name}}.git
+        repoUrl: ${{ steps.publish.output.remoteUrl }}
         labelValue: ${{ parameters.team_name }}
         path: manifest/base
-
 
   output:
     links:
