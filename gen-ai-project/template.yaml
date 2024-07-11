@@ -103,7 +103,7 @@ spec:
       action: publish:github
       input:
         repoUrl: "${{ parameters.repo.host }}?owner=${{ parameters.repo.owner }}&repo=${{parameters.team_name}}"
-        repoVisibility: public
+        repoVisibility: private
         defaultBranch: main
         token: '${{ parameters.repo.token }}'
 
