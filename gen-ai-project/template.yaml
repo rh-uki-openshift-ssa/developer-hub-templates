@@ -2,7 +2,7 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: gen-ai-setup
-  title: Generative AI Application Setup 0.75
+  title: Generative AI Application Setup 0.76
   description: Create and register the Generative AI components on OpenShift
   tags:
     - ai
@@ -18,7 +18,7 @@ spec:
           title: Name
           type: string
           maxLength: 20
-          pattern: '^[a-z0-9_]*$'
+          pattern: '^[a-z0-9-]*$'
         description:
           title: Description
           type: string
