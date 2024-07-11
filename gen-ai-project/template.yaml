@@ -2,7 +2,7 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: gen-ai-setup
-  title: Generative AI Application Setup 0.72
+  title: Generative AI Application Setup 0.73
   description: Create and register the Generative AI components on OpenShift
   tags:
     - ai
@@ -90,7 +90,7 @@ spec:
       name: Generating the Manifests Component
       action: fetch:template
       input:
-        url: ../manifest/
+        url: ./manifest
         values:
           team_name: ${{parameters.team_name}}
           repo_owner: ${{ parameters.repo.owner }}
@@ -148,7 +148,7 @@ spec:
         namespace: openshift-gitops
         repoUrl: ${{ steps.publish.output.remoteUrl }}
         labelValue: ${{ parameters.team_name }}
-        path: manifest/base
+        path: manifest/argocd
 
   output:
     links:
