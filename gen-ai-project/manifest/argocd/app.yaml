@@ -11,8 +11,8 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: gen-ai-project/manifest/helm/genai-retrieval-augmented-generation/
-    repoURL: ${{ parameters.repo_host }}/${{ parameters.repo_owner }}/${{parameters.team_name}}
+    path: argocd/
+    repoURL: ${{ values.destination }}
     # repoURL: https://github.com/rh-uki-openshift-ssa/developer-hub-templates.git
     targetRevision: main
   syncPolicy:
