@@ -8,7 +8,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: manifest/base
+    path: gen-ai-project/helm/genai-retrieval-augmented-generation
     repoURL: ${{ parameters.repo_host }}/${{ parameters.repo_owner }}/${{parameters.team_name}}
     targetRevision: main
   syncPolicy:
