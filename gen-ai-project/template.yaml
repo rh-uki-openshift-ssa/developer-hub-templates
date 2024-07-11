@@ -148,7 +148,7 @@ spec:
         namespace: openshift-gitops
         repoUrl: ${{ steps.publish.output.remoteUrl }}
         labelValue: ${{ parameters.team_name }}
-        path: manifest/argocd
+        path: argocd
 
   output:
     links:
