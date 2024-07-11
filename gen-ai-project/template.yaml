@@ -2,7 +2,7 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: gen-ai-setup
-  title: Generative AI Application Setup 0.6
+  title: Generative AI Application Setup 0.71
   description: Create and register the Generative AI components on OpenShift
   tags:
     - ai
@@ -84,8 +84,20 @@ spec:
           description: ${{ parameters.description }}
           owner: ${{ user.entity.metadata.name }}
           host: ${{ parameters.repo.host }}
-          destination: ${{ parameters.repo.owner }}/${{ parameters.team_name }}
-          
+          destination: https://${{ parameters.repo.host }}/${{ parameters.repo.owner }}/${{ parameters.team_name }}.git
+
+    - id: manifestsTemplate
+      name: Generating the Manifests Component
+      action: fetch:template
+      input:
+        url: ../manifest/
+        values:
+          team_name: ${{parameters.team_name}}
+          repo_owner: ${{ parameters.repo.owner }}
+          repo_host: ${{ parameters.repo.host }}
+          namespace: ${{ parameters.namespace }}
+          destination: https://${{ parameters.repo.host }}/${{ parameters.repo.owner }}/${{ parameters.team_name }}.git
+
     - id: publish
       name: Publish
       action: publish:github
@@ -99,6 +111,7 @@ spec:
       action: debug:log
       input: 
         message: 'Parameters -> repoContentsUrl : ${{ steps.publish.output.repoContentsUrl }}'
+        listworkspace: true
 
     - id: log
       name: Log parameters - 2-a
@@ -129,6 +142,7 @@ spec:
           repo_owner: ${{ parameters.repo.owner }}
           repo_host: ${{ parameters.repo.host }}
           namespace: ${{ parameters.namespace }}
+          destination: https://${{ parameters.repo.host }}/${{ parameters.repo.owner }}/${{ parameters.team_name }}.git
 
     - id: createArgocdResources
       name: Create the ArgoCD Resources
@@ -138,7 +152,7 @@ spec:
         # Hardcoded value because this is kept as a secret on the server to allow forks to easily change the value
         argoInstance: argocd
         namespace: openshift-gitops
-        repoUrl: ${{ steps.publish.output.remoteUrl }}
+        repoUrl: ${{ parameters.repo.host }}/${{ parameters.repo.owner }}/${{parameters.team_name}}.git
         labelValue: ${{ parameters.team_name }}
         path: manifest/base
 
