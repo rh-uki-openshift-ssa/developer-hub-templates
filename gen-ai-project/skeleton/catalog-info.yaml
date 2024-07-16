@@ -6,6 +6,10 @@ metadata:
   description: ${{values.description | dump}}
   {%- endif %}
   annotations:
+    argocd/app-selector: rht-gitops.com/janus-argocd=${{values.team_name}}
+    backstage.io/kubernetes-id: ${{values.team_name}}
+    backstage.io/source-location: url:https://${{values.host}}/${{values.destination}}
+    backstage.io/techdocs-ref: url:https://${{values.host}}/${{values.destination}}
     gitlab.com/project-slug: ${{values.destination}}
 spec:
   type: service
