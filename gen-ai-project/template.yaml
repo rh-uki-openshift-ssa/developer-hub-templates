@@ -41,9 +41,9 @@ spec:
               title: Repo Owner
               type: string
               description: Your SCM host organization/group
-              default: db-hackathon
+              default: marrober
               enum:
-                - db-hackathon
+                - marrober
             token: 
               title: Github authentication token
               type: string
