@@ -6,7 +6,8 @@ metadata:
   description: ${{values.description | dump}}
   {%- endif %}
   annotations:
-    argocd/app-selector: https://redhat-developer-hub-developer-hub.apps.cluster-l6kpl.sandbox1352.opentlc.com/openshift-gitops=${{values.team_name}}
+    argocd/app-selector: rht-gitops.com/openshift-gitops=${{values.team_name}}
+    argocd/app-name: ${{ values.team_name }}
     backstage.io/kubernetes-id: ${{values.team_name}}
     backstage.io/source-location: url:https://${{values.host}}/${{values.destination}}
     backstage.io/techdocs-ref: url:https://${{values.host}}/${{values.destination}}
